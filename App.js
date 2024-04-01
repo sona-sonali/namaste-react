@@ -17,33 +17,71 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.css'
 
-const parent = React.createElement
-(
-    "div",
-    {id: "parent"},
-    [React.createElement
-    (
-        "div",
-        {id: "child1"},
-        [React.createElement("h1", {}, "This is Namaste React"), React.createElement("h2", {}, "By Akshay Saini")]
-    ),
-    React.createElement
-    (
-        "div",
-        {id: "child1"},
-        [React.createElement("h1", {}, "This is Namaste React"), React.createElement("h2", {}, "By Sonali")]
-    )]
-)
+// const parent = React.createElement
+// (
+//     "div",
+//     {id: "parent"},
+//     [React.createElement
+//     (
+//         "div",
+//         {id: "child1"},
+//         [React.createElement("h1", {}, "This is Namaste React"), React.createElement("h2", {}, "By Akshay Saini")]
+//     ),
+//     React.createElement
+//     (
+//         "div",
+//         {id: "child1"},
+//         [React.createElement("h1", {}, "This is Namaste React"), React.createElement("h2", {}, "By Sonali")]
+//     )]
+// )
 
-const heading = React.createElement
-(
-    "h1", 
-    {id: "heading", xyz: "abc"}, // attributes of h1 
-    "Hello World From React" // children
-    );
-    console.log(parent) // returns object of type h1 with props. props is children and attribute
+// const heading = React.createElement
+// (
+//     "h1", 
+//     {id: "heading", xyz: "abc"}, // attributes of h1 
+//     "Hello World From React" // children
+//     );
+//     console.log(parent) // returns object of type h1 with props. props is children and attribute
+
+//     const jsxHeading = <h1 id="heading">Namaste React using jSX</h1>
+
+const Title = () => <h1 className='heading'>Hello Functional React!</h1>
+
+const data = <h1>Another Title</h1>
+
+const FunctionalComponent = () => {
+    return (
+        <div id='container'>
+            {Title()}
+            {data}
+            <Title />
+            <h1 className='parent'>Namaste React using Functional Component</h1>
+        </div>
+    )
+}
+
+const title2 = <div>
+    <h1>Assignment 3</h1>
+    <h2>This is the third assignment</h2>
+    <h3>It's about JSX</h3>
+</div>
+
+const TitleComponent = () => {
+    return(
+    <div className='title'>
+        {title2}
+        <h1>Assignment 03.1</h1>
+        <h2>This is the functional part of the assignment</h2>
+        <h3>This is JSX in functional component</h3>
+    </div>
+    )
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(parent)  // render method is responsible for take the heading object to an h1 tag put it in the root
+// root.render(jsxHeading)  // render method is responsible for take the heading object to an h1 tag put it in the root
+
+root.render(<TitleComponent />)
+

@@ -1,33 +1,38 @@
 import { useEffect, useState } from "react"
-import resList from "../utils.js/mockdata"
 import RestaurantCard from "./RestaurantCard"
 import Shimmer from "./Shimmer"
 import { Link } from "react-router-dom"
+import { SWIGGY_API } from "../utils.js/constants"
+import useOnlineStatus from "../utils.js/useOnlineStatus"
 
 const Body = () => {
     const [listOfRestaurants, setListOfRestaurants] = useState([])
+    // const { listOfRestaurants, isLoading, error } = useSwiggyAPI()
+    // console.log(listOfRestaurants)
     const [searchText, setSearchText] = useState("")
     const [filteredRestaurants, setFilteredRestaurants] = useState([])
-
+    
     useEffect(() => {
         fetchData()
     }, [])
 
     const fetchData = async () => {
-        const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING')
+        const data = await fetch(SWIGGY_API)
         const response = await data.json()
 
         console.log(response)
         setListOfRestaurants(response?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
         setFilteredRestaurants(response?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
     }
-    // Conditional Rendering
 
-    // if(listOfRestaurants.length===0){
-    //     return <Shimmer />
-    // }
-    // console.log(listOfRestaurants)
+    const onlineStatus = useOnlineStatus()
 
+    if(onlineStatus === false) {
+        return <h1>
+            Looks like you are offline. Please check your internet connectivity. 
+        </h1>
+    }
+// conditional rendering
     return listOfRestaurants.length===0 ? <Shimmer /> : (
         <div className='body'>
             <div className='filter'>
@@ -41,8 +46,8 @@ const Body = () => {
                 </div>
                 <button className="filtered-btn"
                   onClick={() => {
-                    const filteredList = listOfRestaurants.filter(res => res.info.avgRating < 4)
-                    setListOfRestaurants(filteredList)
+                    const resfilteredList = listOfRestaurants.filter(res => res.info.avgRating < 4)
+                    setFilteredRestaurants(resfilteredList)
                   }}
                 >
                     Top Rated Restaurant
